@@ -28,7 +28,9 @@ def read_root():
 
 @app.get("/store-email" )
 def  read_emails():
-
+    imap_server = "w01ae1f1.kasserver.com"
+    username = "testmail@migrando.de"
+    password = "KxBHfJksz8T5wU5dULxN"
     latest_email = fetch_latest_email(imap_server, username, password)
     db = SessionLocal()
     try:
