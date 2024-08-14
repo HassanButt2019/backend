@@ -2,3 +2,5 @@
 /__pycache__
 /app\__pycache__
 /app\ret_emails\__pycache__\read_emails.cpython-311.pyc
+
+mail_env

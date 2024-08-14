@@ -1,7 +1,7 @@
 # app/models.py
 
 from sqlalchemy import Column, Integer, String
-from app.db import Base
+from ...database.db import Base
 
 class Email(Base):
     __tablename__ = "emails"
@@ -10,3 +10,4 @@ class Email(Base):
     subject = Column(String, index=True)
     from_ = Column(String)
     body = Column(String)
+    message_id = Column(String, unique=True, index=True)

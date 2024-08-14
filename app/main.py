@@ -1,61 +1,49 @@
 from fastapi import FastAPI, Depends, HTTPException
-from app.ret_emails.read_emails import fetch_latest_email
 from dotenv import load_dotenv
 import os
 from sqlalchemy.orm import Session
-from app.db import SessionLocal
-from app.crud import init_db
+from app.database.crud import init_db
 from typing import List
+import logging
+from fastapi.middleware.cors import CORSMiddleware
+from .automation.imap_sync import start_email_sync
+from .api.endpoints.email import emailRouter
 
-from app.data.schemas.email import Email
+CONFIG_FORMATTER = '%(asctime)s %(name)s[%(levelname)s] %(message)s'
+logger = logging.getLogger(__name__)
 
-load_dotenv()
+def setup_logging():
+    """Set log level to INFO for debugging."""
+    log_level = os.environ.get('LOG_LEVEL', 'INFO')
+    log_level = getattr(logging, log_level)
+    logging.basicConfig(level=log_level, format=CONFIG_FORMATTER)
+
 app = FastAPI()
-# Initialize the database
-init_db()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Set this to specific origins if needed
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+@app.on_event("startup")
+async def startup_event():
+    init_db()
+    start_email_sync()
 
-# Dependency to get the database session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
+
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the FastAPI email reader!"}
+    return {"msg": "This is Email Project"}
 
-@app.get("/store-email" )
-def  read_emails():
-    imap_server = "w01ae1f1.kasserver.com"
-    username = "testmail@migrando.de"
-    password = "KxBHfJksz8T5wU5dULxN"
-    latest_email = fetch_latest_email(imap_server, username, password)
-    db = SessionLocal()
-    try:
-        yield db
-        if latest_email:
-            for email in latest_email:
-                db_email = Email(subject=email["subject"] ,body=email["body"] ,from_=email["from"])
-                db.add(db_email)
-                db.commit()
-                db.refresh(db_email)
-            return {"emails": "List of emails will be here."}
-        else:
-            print("No email found or an error occurred.")
-        return {"emails": "List of emails will be here."}
-    finally:
-        db.close()
-                    
+
+
+app.include_router(emailRouter)
+
+setup_logging()
 
 
 
 
-@app.get("/emails/")
-def read_emails(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(Email).offset(skip).limit(limit).all()
-
-
-def create_email(subject: str, from_: str, body: str, db: Session = Depends(get_db)):
-    print(subject)

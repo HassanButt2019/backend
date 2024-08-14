@@ -36,6 +36,7 @@ def fetch_latest_email(imap_server: str, username: str, password: str, mailbox: 
                     if isinstance(subject, bytes):
                         subject = subject.decode(encoding if encoding else "utf-8")
                     from_ = msg.get("From")
+                    message_id = msg.get("Message-ID")
                     body = None
                     if msg.is_multipart():
                         for part in msg.walk():
@@ -54,6 +55,7 @@ def fetch_latest_email(imap_server: str, username: str, password: str, mailbox: 
                         "subject": subject,
                         "from": from_,
                         "body": body,
+                        "message_id":message_id
                     })
 
         return emails
