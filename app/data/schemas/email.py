@@ -12,6 +12,7 @@ class Email(Base):
     __tablename__ = "emails"
     
     id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True, nullable=True)
     subject = Column(String, index=True, nullable=True)
     from_ = Column(String, nullable=True)  # Assuming the `from_` field stores email addresses as strings
     to = Column(String, nullable=True)  # Adding `to` field
@@ -20,6 +21,7 @@ class Email(Base):
     body = Column(Text, nullable=True)  # Using Text for potentially large body content
     content_type = Column(String, nullable=True)  # Adding `content_type` field
     metaData = Column(Text, nullable=True)  # Store metadata as JSON string
+    email_type = Column(Text , nullable = True)
     def set_metadata(self, data):
         self.metaData = json.dumps(data)
 

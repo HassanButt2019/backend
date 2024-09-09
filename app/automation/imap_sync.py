@@ -16,12 +16,18 @@ load_dotenv()
 
 def email_sync_worker(imap_server: str, username: str, password: str,db: Session = Depends(get_db)):
     while True:
-        emails = fetch_latest_email(imap_server, username, password)
-        for email in emails:
-            create_email(
+        all_mail_box = []
+        inbox_emails = fetch_latest_email(imap_server, username, password , mailbox="inbox")
+        # sent_emails = fetch_latest_email(imap_server,username,password , mailbox="Sent")
+        all_mail_box.append(inbox_emails)
+        # all_mail_box.append(sent_emails)
+        for mail_box in all_mail_box:
+            for email in mail_box:
+                create_email(
                 email=email,
                 db=db
             )
+            
         time.sleep(1) 
 
 

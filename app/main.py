@@ -8,6 +8,8 @@ import logging
 from fastapi.middleware.cors import CORSMiddleware
 from .automation.imap_sync import start_email_sync
 from .api.endpoints.email import emailRouter
+from .api.endpoints.authority import authorityRouter
+from .api.endpoints.contact import contactRouter
 
 CONFIG_FORMATTER = '%(asctime)s %(name)s[%(levelname)s] %(message)s'
 logger = logging.getLogger(__name__)
@@ -41,6 +43,8 @@ def read_root():
 
 
 app.include_router(emailRouter)
+app.include_router(authorityRouter)
+app.include_router(contactRouter)
 
 setup_logging()
 
