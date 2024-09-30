@@ -6,8 +6,8 @@ import json
 
 from ...database.db import Base
 
-class Authroity(Base):
-    __tablename__ = "authority"
+class AuthroityInbox(Base):
+    __tablename__ = "authority_inbox"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=True)
     subject = Column(String, index=True, nullable=True)
@@ -17,10 +17,10 @@ class Authroity(Base):
     message_id = Column(String, unique=True, index=True, nullable=True)  
     body = Column(Text, nullable=True) 
     content_type = Column(String, nullable=True) 
-    metaData = Column(Text, nullable=True)
+    meta_data = Column(Text, nullable=True)
     email_type = Column(Text , nullable = True)
     def set_metadata(self, data):
-        self.metaData = json.dumps(data)
+        self.meta_data = json.dumps(data)
 
     def get_metadata(self):
-        return json.loads(self.metaData) if self.metaData else {}
+        return json.loads(self.meta_data) if self.meta_data else {}

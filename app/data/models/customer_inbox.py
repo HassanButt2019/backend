@@ -2,8 +2,8 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import Any, Dict, Optional
 from datetime import datetime
 
-class AuthroityModel(BaseModel):
-    name:Optional[str] = None     
+class CustomerInboxModel(BaseModel):
+    name:Optional[str] = None 
     from_: Optional[EmailStr] = None
     to: Optional[EmailStr] = None
     date: Optional[datetime] = None
@@ -13,6 +13,7 @@ class AuthroityModel(BaseModel):
     body: Optional[str] = None
     email_type:Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    contact_id: Optional[str] = None
 
 
     class Config:
@@ -30,9 +31,3 @@ class AuthroityModel(BaseModel):
                 "metadata": {"key": "value"}
             }
         }
-
-
-
-
-
-authorityList = ["hassanqa13@gmail.com"]

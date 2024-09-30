@@ -3,7 +3,7 @@ import time
 import threading
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from app.ret_emails.read_emails import fetch_latest_email
+from app.ret_emails.read_emails import fetch_latest_email, fetch_sent_emails
 from ..database.db import  get_db , SessionLocal
 import os
 from dotenv import load_dotenv
@@ -17,8 +17,8 @@ load_dotenv()
 def email_sync_worker(imap_server: str, username: str, password: str,db: Session = Depends(get_db)):
     while True:
         all_mail_box = []
-        inbox_emails = fetch_latest_email(imap_server, username, password , mailbox="inbox")
-        # sent_emails = fetch_latest_email(imap_server,username,password , mailbox="Sent")
+        inbox_emails = fetch_latest_email(imap_server, username, password , mailbox="INBOX")
+        sent_emails = fetch_sent_emails(imap_server,username,password)
         all_mail_box.append(inbox_emails)
         # all_mail_box.append(sent_emails)
         for mail_box in all_mail_box:

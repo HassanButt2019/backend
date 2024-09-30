@@ -7,16 +7,13 @@ import json
 
 from ...database.db import Base
 
-class Contact(Base):
-    __tablename__ = "contacts"
-    
+class Customer(Base):
+    __tablename__ = "customer"
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=True)
-    email = Column(String, nullable=True , unique=True,)
+    email = Column(String, nullable=True, unique=True)
     date = Column(DateTime, nullable=True)  
-    message_id = Column(String,index=True, nullable=True) 
-    def set_metadata(self, data):
-        self.metaData = json.dumps(data)
-    def get_metadata(self):
-        return json.loads(self.metaData) if self.metaData else {}
+    application_number = Column(String, nullable=True)
+    email_count = Column(Integer, default=0) 
+    emails = relationship("CustomerInbox", back_populates="contact") #change name of this to customer_inbox
 

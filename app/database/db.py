@@ -7,7 +7,7 @@ from fastapi import Depends
 import os
 
 # SQLite database URL for local development
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./test_test.db"
 
 # Create a SQLAlchemy engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})

@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import Any, Dict, Optional
 from datetime import datetime
 
-class EmailModel(BaseModel):
+class EmailReplyModel(BaseModel):
     name:Optional[str] = None 
     from_: Optional[EmailStr] = None
     to: Optional[EmailStr] = None
@@ -13,6 +13,7 @@ class EmailModel(BaseModel):
     body: Optional[str] = None
     email_type:Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
+    parent_message_id: Optional[str] = None
 
 
     class Config:

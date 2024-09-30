@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from dotenv import load_dotenv
 import os
+from sqlalchemy import DateTime
 from sqlalchemy.orm import Session
 from app.database.crud import init_db
 from typing import List
@@ -10,6 +11,7 @@ from .automation.imap_sync import start_email_sync
 from .api.endpoints.email import emailRouter
 from .api.endpoints.authority import authorityRouter
 from .api.endpoints.contact import contactRouter
+from .api.endpoints.reply import replyRouter
 
 CONFIG_FORMATTER = '%(asctime)s %(name)s[%(levelname)s] %(message)s'
 logger = logging.getLogger(__name__)
@@ -36,15 +38,16 @@ async def startup_event():
 
 
 
-@app.get("/")
+@app.get("////")
 def read_root():
-    return {"msg": "This is Email Project"}
+    return {"msg": "This is Email Project "}
 
 
 
 app.include_router(emailRouter)
 app.include_router(authorityRouter)
 app.include_router(contactRouter)
+app.include_router(replyRouter)
 
 setup_logging()
 
