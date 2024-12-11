@@ -36,4 +36,4 @@ def start_email_sync():
     username = os.getenv("EMAIL_USERNAME")
     password = os.getenv("EMAIL_PASSWORD")
     db = SessionLocal()
-    threading.Thread(target=email_sync_worker, args=(imap_server, username, password, db)).start()
+    # threading.Thread(target=email_sync_worker, args=(imap_server, username, password, db)).start()

@@ -1,0 +1,8 @@
+email/
+erd/
+scripts/
+
+
+*.env
+*.env.*
+env.*

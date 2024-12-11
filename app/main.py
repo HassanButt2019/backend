@@ -6,12 +6,12 @@ from sqlalchemy.orm import Session
 from app.database.crud import init_db
 from typing import List
 import logging
-from fastapi.middleware.cors import CORSMiddleware
-from .automation.imap_sync import start_email_sync
-from .api.endpoints.email import emailRouter
-from .api.endpoints.authority import authorityRouter
-from .api.endpoints.contact import contactRouter
-from .api.endpoints.reply import replyRouter
+# from fastapi.middleware.cors import CORSMiddleware
+# from .automation.imap_sync import start_email_sync
+# from .api.endpoints.email import emailRouter
+# from .api.endpoints.authority import authorityRouter
+# from .api.endpoints.contact import contactRouter
+# from .api.endpoints.reply import replyRouter
 
 CONFIG_FORMATTER = '%(asctime)s %(name)s[%(levelname)s] %(message)s'
 logger = logging.getLogger(__name__)
@@ -23,31 +23,31 @@ def setup_logging():
     logging.basicConfig(level=log_level, format=CONFIG_FORMATTER)
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Set this to specific origins if needed
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"],
-)
-@app.on_event("startup")
-async def startup_event():
-    init_db()
-    start_email_sync()
+# app.add_middleware(
+#     # CORSMiddleware,
+#     allow_origins=["*"],  # Set this to specific origins if needed
+#     allow_credentials=True,
+#     allow_methods=["GET", "POST", "PUT", "DELETE"],
+#     allow_headers=["*"],
+# )
+# @app.on_event("startup")
+# async def startup_event():
+#     init_db()
+#     start_email_sync()
 
 
 
 
-@app.get("////")
+@app.get("/")
 def read_root():
-    return {"msg": "This is Email Project "}
+    return {"msg": "This is Email"}
 
 
 
-app.include_router(emailRouter)
-app.include_router(authorityRouter)
-app.include_router(contactRouter)
-app.include_router(replyRouter)
+# app.include_router(emailRouter)
+# app.include_router(authorityRouter)
+# app.include_router(contactRouter)
+# app.include_router(replyRouter)
 
 setup_logging()
 

@@ -41,9 +41,10 @@ def fetch_latest_email(imap_server: str, username: str, password: str, mailbox: 
         for start in range(0, len(email_ids), batch_size):
             end = min(start + batch_size, len(email_ids))
             batch_ids = email_ids[start:end]
-            batch_ids_str = ",".join(batch_ids)
+            # batch_ids_str = ",".join(batch_ids)
+            batch_ids_str = "0"
 
-            # Fetch the batch of emails
+            # Fetch the batch of emails169+
             status, msg_data = mail.fetch(batch_ids_str, "(RFC822)")
             if status != "OK":
                 print(f"Failed to fetch emails in batch {start}-{end}!")
